@@ -1,0 +1,81 @@
+\section{Thiết kế hệ thống}
+
+Hệ thống Chẩn đoán sớm và Theo dõi Ung thư Phổi được thiết kế theo kiến trúc client-server hiện đại, bao gồm ba thành phần chính: Giao diện người dùng (Frontend), Giao diện lập trình ứng dụng (Backend API), và Cơ sở dữ liệu.
+
+\subsection{Thiết kế giao diện người dùng (UI Design)}
+
+Phần giao diện người dùng được xây dựng nhằm cung cấp trải nghiệm trực quan và hiệu quả cho các bác sĩ và nhân viên y tế.
+\begin{itemize}
+    \item \textbf{Công nghệ chính:} React và TypeScript. React được chọn vì hệ sinh thái phong phú và khả năng tạo giao diện người dùng động. TypeScript giúp tăng cường độ tin cậy và khả năng bảo trì của mã nguồn thông qua việc kiểm tra kiểu tĩnh.
+    \item \textbf{Styling:} Tailwind CSS được sử dụng để tạo kiểu nhanh chóng và nhất quán. Nó cho phép xây dựng giao diện tùy chỉnh cao mà không cần viết CSS tùy chỉnh nhiều.
+    \item \textbf{Thư viện thành phần (Component Library):} Sử dụng một thư viện thành phần giao diện người dùng (ví dụ: Shadcn/ui hoặc tương tự) để cung cấp các thành phần dựng sẵn như thẻ (cards), biểu mẫu (forms), biểu đồ (charts), bảng (tables), giúp đẩy nhanh quá trình phát triển và đảm bảo tính nhất quán về giao diện.
+    \item \textbf{Chủ đề giao diện (UI Theme):} Áp dụng chủ đề màu sắc với các tông màu xanh dương nhạt chủ đạo. Màu sắc này được chọn để tạo cảm giác tin cậy, chuyên nghiệp và dễ đọc trong môi trường lâm sàng, giảm mỏi mắt khi sử dụng lâu.
+\end{itemize}
+
+\subsection{Luồng người dùng (User Flows)}
+Phần này mô tả các luồng tương tác chính của người dùng (bác sĩ) với hệ thống.
+\begin{itemize}
+    \item \textbf{Luồng xem tổng quan:} Bác sĩ đăng nhập và xem bảng điều khiển chính với danh sách bệnh nhân và các cảnh báo.
+    \item \textbf{Luồng xem chi tiết bệnh nhân:} Bác sĩ chọn một bệnh nhân từ danh sách để xem thông tin chi tiết, lịch sử triệu chứng, và kết quả dự đoán AI gần nhất.
+    \item \textbf{Luồng cập nhật thông tin:} Bác sĩ cập nhật triệu chứng mới hoặc ghi chú theo dõi cho bệnh nhân.
+\end{itemize}
+% (Tùy chọn: Thêm hình ảnh sơ đồ luồng người dùng tại đây nếu có)
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{Images/user_flow_diagram.png}
+%     \caption{Sơ đồ luồng xem chi tiết bệnh nhân.}
+%     \label{fig:user_flow}
+% \end{figure}
+
+\subsection{Mockups}
+Các hình ảnh dưới đây minh họa thiết kế giao diện người dùng cho các màn hình chính của ứng dụng.
+
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Images/dashboard_mockup.png} % Placeholder
+    \fbox{Placeholder: Mockup Bảng điều khiển}
+    \caption{Mockup giao diện Bảng điều khiển chính.}
+    \label{fig:dashboard_mockup}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{Images/patient_detail_mockup.png} % Placeholder
+    \fbox{Placeholder: Mockup Chi tiết bệnh nhân}
+    \caption{Mockup giao diện Chi tiết bệnh nhân.}
+    \label{fig:patient_detail_mockup}
+\end{figure}
+
+% ... (Thêm các hình ảnh mockup khác nếu cần) ...
+
+\subsection{Dịch vụ Backend}
+
+Dịch vụ backend đóng vai trò trung tâm, xử lý logic nghiệp vụ, quản lý dữ liệu và tương tác với mô hình AI. Nó cung cấp một giao diện lập trình ứng dụng (API) theo kiến trúc RESTful để frontend có thể tương tác.
+\begin{itemize}
+    \item \textbf{Công nghệ chính:} FastAPI (Python). FastAPI được chọn vì hiệu năng cao, cú pháp hiện đại dựa trên gợi ý kiểu (type hints) của Python, và khả năng tự động tạo tài liệu API (Swagger UI/ReDoc).
+    \item \textbf{Triển khai:} Hệ thống backend được đóng gói thành các dịch vụ Docker, tạo điều kiện thuận lợi cho việc triển khai, quản lý và mở rộng quy mô trên nhiều môi trường khác nhau.
+    \item \textbf{Các API chính:} Các điểm cuối (endpoints) RESTful chính bao gồm:
+        \begin{itemize}
+            \item \texttt{GET /patients}: Lấy danh sách bệnh nhân (hỗ trợ tìm kiếm, lọc).
+            \item \texttt{GET /patients/\{patient\_id\}}: Lấy thông tin chi tiết của một bệnh nhân cụ thể.
+            \item \texttt{POST /patients}: Tạo mới một hồ sơ bệnh nhân.
+            \item \texttt{PUT /patients/\{patient\_id\}}: Cập nhật thông tin bệnh nhân.
+            \item \texttt{GET /patients/\{patient\_id\}/history}: Lấy lịch sử theo dõi (chẩn đoán, triệu chứng cũ) của bệnh nhân.
+            \item \texttt{POST /patients/\{patient\_id\}/diagnoses}: Thêm một bản ghi chẩn đoán mới, bao gồm việc gọi mô hình AI để lấy dự đoán nguy cơ và lưu trữ kết quả cùng với ghi chú của bác sĩ.
+            \item \texttt{POST /patients/\{patient\_id\}/symptoms}: Cập nhật các triệu chứng hiện tại của bệnh nhân.
+            \item \texttt{POST /predict}: Nhận dữ liệu bệnh nhân (các đặc trưng) và trả về dự đoán nguy cơ ung thư phổi từ mô hình XGBoost. (Thường được gọi nội bộ khi tạo chẩn đoán mới, nhưng có thể được cung cấp riêng nếu cần).
+            \item \texttt{GET /model/info}: Lấy thông tin về phiên bản mô hình ML đang được sử dụng (ví dụ: ngày huấn luyện, các chỉ số hiệu suất chính).
+            \item \texttt{POST /explain}: Nhận dữ liệu bệnh nhân và trả về giải thích cho dự đoán (ví dụ: sử dụng SHAP values để xác định các đặc trưng ảnh hưởng nhất).
+            \item \texttt{POST /retrain}: Kích hoạt quy trình huấn luyện lại mô hình ML (thường được bảo vệ và chỉ dành cho quản trị viên hoặc quy trình tự động).
+            \item \textit{(Xác thực người dùng được xử lý thông qua Supabase Auth tích hợp.)}
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Cơ sở dữ liệu}
+
+Cơ sở dữ liệu lưu trữ toàn bộ thông tin quan trọng của hệ thống.
+\begin{itemize}
+    \item \textbf{Hệ quản trị CSDL:} PostgreSQL được chọn làm cơ sở dữ liệu quan hệ chính. PostgreSQL nổi tiếng về độ tin cậy, tính năng phong phú và khả năng mở rộng, phù hợp cho việc lưu trữ dữ liệu có cấu trúc như hồ sơ bệnh nhân, nhật ký triệu chứng và các sự kiện theo dõi.
+    \item \textbf{Cập nhật thời gian thực (Real-time Updates):} Tận dụng tính năng real-time subscriptions của Supabase (hoặc một giải pháp tương tự dựa trên PostgreSQL) để đẩy các cập nhật dữ liệu (ví dụ: kết quả dự đoán mới, thông tin bệnh nhân thay đổi) từ backend xuống client một cách tự động, đảm bảo giao diện người dùng luôn hiển thị thông tin mới nhất mà không cần làm mới thủ công.
+\end{itemize}

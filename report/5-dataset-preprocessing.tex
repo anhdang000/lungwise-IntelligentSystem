@@ -1,0 +1,38 @@
+\section{Tập dữ liệu và tiền xử lý}
+
+Chất lượng của mô hình dự đoán phụ thuộc rất nhiều vào chất lượng và cách xử lý dữ liệu đầu vào. Phần này mô tả nguồn dữ liệu, các đặc trưng được thu thập và các bước tiền xử lý được thực hiện.
+
+\subsection{Nguồn dữ liệu}
+
+Dữ liệu được sử dụng trong dự án này là tập hợp các hồ sơ bệnh nhân lịch sử, bao gồm thông tin về nhân khẩu học, yếu tố lối sống và các triệu chứng lâm sàng liên quan đến ung thư phổi. Nguồn dữ liệu này (ví dụ: từ một nghiên cứu hoặc cơ sở dữ liệu bệnh viện cụ thể) cần được nêu rõ nếu có thể.
+
+\subsection{Các đặc trưng được thu thập}
+
+Các đặc trưng sau đây đã được thu thập cho mỗi bệnh nhân:
+\begin{itemize}
+    \item \textbf{Nhân khẩu học:} Giới tính (GENDER), Tuổi (AGE).
+    \item \textbf{Lối sống:} Hút thuốc (SMOKING), Sử dụng rượu (ALCOHOL CONSUMING).
+    \item \textbf{Yếu tố nguy cơ và triệu chứng:} Vàng ngón tay (YELLOW\_FINGERS), Lo lắng (ANXIETY), Áp lực từ bạn bè/đồng nghiệp (PEER\_PRESSURE), Bệnh mãn tính (CHRONIC DISEASE), Mệt mỏi (FATIGUE), Dị ứng (ALLERGY), Thở khò khè (WHEEZING), Ho (COUGHING), Khó thở (SHORTNESS OF BREATH), Khó nuốt (SWALLOWING DIFFICULTY), Đau ngực (CHEST PAIN).
+    \item \textbf{Nhãn mục tiêu:} Chẩn đoán ung thư phổi (LUNG\_CANCER) - xác nhận bệnh nhân có bị ung thư phổi hay không.
+\end{itemize}
+
+\subsection{Các bước làm sạch và tiền xử lý dữ liệu}
+
+Để chuẩn bị dữ liệu cho việc huấn luyện mô hình, các bước sau đã được thực hiện:
+\begin{itemize}
+    \item \textbf{Xử lý giá trị thiếu:} Các bản ghi có giá trị bị thiếu đã được xử lý bằng cách loại bỏ hoặc sử dụng các kỹ thuật điền khuyết (imputation) phù hợp (ví dụ: điền bằng giá trị trung bình, trung vị hoặc mode).
+    \item \textbf{Mã hóa biến hạng mục (Categorical Encoding):} Các đặc trưng hạng mục (ví dụ: Giới tính) đã được chuyển đổi thành dạng số bằng kỹ thuật mã hóa one-hot (one-hot encoding).
+    \item \textbf{Chuẩn hóa biến liên tục (Continuous Variable Standardization):} Các đặc trưng liên tục (ví dụ: Tuổi) đã được chuẩn hóa (ví dụ: sử dụng Z-score standardization) để có giá trị trung bình bằng 0 và độ lệch chuẩn bằng 1, giúp các thuật toán học máy hoạt động hiệu quả hơn.
+\end{itemize}
+
+\subsection{Kỹ thuật đặc trưng (Feature Engineering)}
+
+Một số kỹ thuật đặc trưng đơn giản đã được áp dụng:
+\begin{itemize}
+    \item \textbf{Tạo cờ nhị phân (Binary Flags):} Chuyển đổi các đặc trưng triệu chứng thành dạng cờ nhị phân (0 hoặc 1) để biểu thị sự có mặt hay vắng mặt của triệu chứng.
+    \item \textbf{Tổng hợp điểm rủi ro (Composite Score - tùy chọn):} Có thể xem xét việc tạo ra một điểm số rủi ro tổng hợp dựa trên sự kết hợp của các yếu tố nguy cơ đã biết (ví dụ: tuổi, hút thuốc, bệnh mãn tính). Tuy nhiên, trong nhiều trường hợp, để mô hình tự học các mối quan hệ phức tạp sẽ hiệu quả hơn.
+\end{itemize}
+
+\subsection{Phân chia tập dữ liệu Huấn luyện - Kiểm tra (Train-Test Split)}
+
+Tập dữ liệu đã được chia thành hai phần: tập huấn luyện (80%) và tập kiểm tra (20%). Việc phân chia được thực hiện bằng phương pháp phân chia có phân tầng (stratified split) để đảm bảo rằng tỷ lệ các trường hợp ung thư phổi (lớp dương tính) trong cả hai tập dữ liệu là tương đương nhau. Điều này rất quan trọng đối với các tập dữ liệu mất cân bằng để đánh giá mô hình một cách chính xác.

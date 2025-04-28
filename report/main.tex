@@ -1,0 +1,171 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[]{graphicx}
+\usepackage{indentfirst}
+\pagenumbering{arabic}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{caption}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{array}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{float}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{adjustbox}
+\usepackage{gensymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{stackengine}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdfpagemode=FullScreen,
+    }
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=true,
+  frame=shadowbox,
+  tabsize=2
+  commentstyle=\color{mygreen},
+  keywordstyle=\color{blue},
+  numberstyle=\tiny\color{mygray},
+  rulecolor=\color{black},
+  stringstyle=\color{mymauve},
+}
+
+\begin{document}
+
+\begin{titlepage}
+
+        \begin{tikzpicture}[overlay,remember picture]
+        \draw [line width=3pt]
+               ($ (current page.north west) + (1.5cm,-2.0cm) $)
+            rectangle
+            ($ (current page.south east) + (-1.5cm,2 .0 cm) $);
+        \draw [line width=1pt]
+            ($ (current page.north west) + (1.65cm,-2.15cm) $)
+            rectangle
+            ($ (current page.south east) + (-1.65cm,2.15cm) $); 
+        \end{tikzpicture}%
+        
+	\centering
+	
+	{\scshape\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH\\TRƯỜNG ĐẠI HỌC BÁCH KHOA \par}
+	\vspace{0.5cm}
+	\includegraphics[width=0.3\textwidth]{Images/Logo BK.png}\par\vspace{0.1 cm}
+	{\scshape\large KHOA KHOA HỌC \& KỸ THUẬT MÁY TÍNH \\
+	                Môn học: Hệ thống Thông minh\par} % Updated course name
+	\vspace{1.5cm}
+
+%%%%%% Your title goes here %%%%%%%%
+	\begin{center}
+	    \color{blue}
+	    \begin{tabular}{c}
+	    \hline
+	    \\
+	    \multicolumn{1}{l}{\large \bfseries Đề tài:}\\
+	    \\
+	    \Large \bfseries XÂY DỰNG ỨNG DỤNG \\ % Updated title
+        \Large \bfseries CHẨN ĐOÁN SỚM VÀ THEO DÕI UNG THƯ PHỔI \\ % Updated title
+	    \\
+	    \hline
+	    \end{tabular}
+	\end{center}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------Your name goes here --------
+%-------Your MSSV goes here --------
+
+	\vspace{1cm}
+	\begin{center}
+	    \large 
+	    \begin{tabular}{l l l}
+	        Giảng viên hướng dẫn:   &  TS. Trần Tuấn Anh &\\
+	        Học viên:   &  Đặng Linh Anh & 2370113\\
+	    \end{tabular}
+	    
+	\end{center}
+    \vspace{1.5cm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    
+	\vfill
+	{ TP. Hồ Chí Minh, ngày 28 tháng 4 năm 2025 } % Updated date
+\end{titlepage}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------- Headnote and footnote ------- 
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[L]{
+ \begin{tabular}{rl}
+    \begin{picture}(15,15)(0, 4)
+    \put(0,-8){\includegraphics[width=10mm, height=10mm]{Images/Logo BK.png}}
+    %\put(0,-8){\epsfig{width=10mm,figure=hcmut.eps}}
+   \end{picture}&
+	%\includegraphics[width=8mm, height=8mm]{hcmut.png} & %
+	\begin{tabular}{l}
+		\textbf{\bf \ttfamily Trường đại học Bách Khoa }\\
+		\textbf{\bf \ttfamily Khoa Khoa học \& Kỹ thuật Máy tính}
+	\end{tabular} 	
+ \end{tabular}
+}
+\fancyhead[R]{
+	\begin{tabular}{l}
+		\tiny \bf \\
+		\tiny \bf 
+	\end{tabular}  }
+\fancyfoot{} % clear all footer fields
+\fancyfoot[L]{\scriptsize  \ttfamily 
+% \begin{tabular}{l}
+%      Exercise for Mathematical Foundation for Computer Science  \\
+% \end{tabular}
+}
+%-----------Remember to modify the page when finished ------
+\fancyfoot[R]{\scriptsize \ttfamily  Page {\thepage}/\pageref{LastPage}}
+%-----------Remember to modify the page when finished ------
+
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+\AddToHook{cmd/section/before}{\clearpage}
+\tableofcontents
+\newpage
+
+% Input sections based on report.md outline
+\input{1-introduction}
+\input{2-stakeholders}
+\input{3-algorithm-theory}
+\input{4-system-design}
+\input{5-dataset-preprocessing}
+\input{6-evaluation-results}
+\input{7-conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}
