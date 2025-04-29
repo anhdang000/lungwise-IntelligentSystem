@@ -1,38 +1,88 @@
-\section{Tập dữ liệu và tiền xử lý}
+\section{Dataset and Preprocessing}
 
-Chất lượng của mô hình dự đoán phụ thuộc rất nhiều vào chất lượng và cách xử lý dữ liệu đầu vào. Phần này mô tả nguồn dữ liệu, các đặc trưng được thu thập và các bước tiền xử lý được thực hiện.
+The quality of a prediction model heavily depends on the quality and processing of input data. This section describes the data source, exploratory analysis, collected features, and preprocessing steps performed.
 
-\subsection{Nguồn dữ liệu}
+\subsection{Data Source}
 
-Dữ liệu được sử dụng trong dự án này là tập hợp các hồ sơ bệnh nhân lịch sử, bao gồm thông tin về nhân khẩu học, yếu tố lối sống và các triệu chứng lâm sàng liên quan đến ung thư phổi. Nguồn dữ liệu này (ví dụ: từ một nghiên cứu hoặc cơ sở dữ liệu bệnh viện cụ thể) cần được nêu rõ nếu có thể.
+The data used in this project is the "Survey Lung Cancer" dataset that collects information about risk factors and symptoms related to lung cancer. The initial dataset included 309 samples and 16 features. After removing duplicate records, 276 unique samples remained for analysis and model training.
 
-\subsection{Các đặc trưng được thu thập}
+\subsection{Exploratory Data Analysis (EDA)}
 
-Các đặc trưng sau đây đã được thu thập cho mỗi bệnh nhân:
+Several exploratory analyses were conducted to better understand the data characteristics, particularly in the group of patients diagnosed with lung cancer.
+
+\begin{figure}[H] % Using [H] to try to keep the image in place
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/positive_cases_age_dist.png}
+    \caption{Age distribution of positive cases, separated by gender.}
+    \label{fig:age_dist}
+\end{figure}
+
+As shown in Figure \ref{fig:age_dist}, the age distribution of lung cancer cases shows a clear peak in the 60-70 age range for both males and females. This distribution follows a curve similar to normal distribution, with low frequency in age groups below 50 and above 80. Notably, the proportion of males (yellow color) is higher in most age groups, especially in the 55-65 age range. Overall, this distribution confirms that lung cancer is more common in older people and tends to affect males more, which is consistent with epidemiological studies of lung cancer.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Images/gender.png}
+    \caption{Gender distribution in positive cases.}
+    \label{fig:gender_dist}
+\end{figure}
+
+Figure \ref{fig:gender_dist} shows the gender ratio in lung cancer positive cases. The pie chart indicates that males account for 54.55\% and females for 45.45\% of total cases. The higher proportion of males in this dataset reflects the general trend in lung cancer studies, possibly due to risk factors related to males (such as higher smoking rates) or genetic and physiological factors.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Images/smoke_alcohol.png}
+    \caption{Comparison of smoking and alcohol consumption rates in positive cases by gender.}
+    \label{fig:smoke_alcohol}
+\end{figure}
+
+Figure \ref{fig:smoke_alcohol} provides insight into two main risk factors for lung cancer: smoking and alcohol use, broken down by gender. The left chart shows a large number of male lung cancer patients who smoke (51 cases), compared to non-smokers (20 cases). For females, the ratio is similar but with lower numbers (38 smoking cases and 18 non-smoking cases).
+
+Similarly, the right chart shows alcohol usage patterns, with a similar but less pronounced pattern than smoking. In both genders, alcohol users make up the majority of lung cancer cases, with 43 males and 32 females who use alcohol compared to 28 males and 24 females who don't. These results highlight the recognized connection between lifestyle habits such as smoking and drinking and lung cancer risk.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Images/symptoms.png}
+    \caption{Distribution of symptoms and risk factors in positive cases by gender.}
+    \label{fig:symptoms_dist}
+\end{figure}
+
+Figure \ref{fig:symptoms_dist} provides a detailed overview of the prevalence of different symptoms in lung cancer patients, broken down by gender. From this chart, several key points can be observed:
+
 \begin{itemize}
-    \item \textbf{Nhân khẩu học:} Giới tính (GENDER), Tuổi (AGE).
-    \item \textbf{Lối sống:} Hút thuốc (SMOKING), Sử dụng rượu (ALCOHOL CONSUMING).
-    \item \textbf{Yếu tố nguy cơ và triệu chứng:} Vàng ngón tay (YELLOW\_FINGERS), Lo lắng (ANXIETY), Áp lực từ bạn bè/đồng nghiệp (PEER\_PRESSURE), Bệnh mãn tính (CHRONIC DISEASE), Mệt mỏi (FATIGUE), Dị ứng (ALLERGY), Thở khò khè (WHEEZING), Ho (COUGHING), Khó thở (SHORTNESS OF BREATH), Khó nuốt (SWALLOWING DIFFICULTY), Đau ngực (CHEST PAIN).
-    \item \textbf{Nhãn mục tiêu:} Chẩn đoán ung thư phổi (LUNG\_CANCER) - xác nhận bệnh nhân có bị ung thư phổi hay không.
+    \item \textbf{Anxiety:} A common symptom in both males and females, with a high positive rate (especially in males).
+    \item \textbf{Yellow Fingers:} This sign appears in about 2/3 of patients, reflecting the effects of long-term cigarette smoking.
+    \item \textbf{Fatigue:} A very common symptom in both genders, especially in females, indicating this is an important symptom to monitor.
+    \item \textbf{Shortness of Breath and Coughing:} These two classic respiratory symptoms are present in over 50\% of patients, but not all, highlighting the challenge in diagnosis based solely on clinical symptoms.
+    \item \textbf{Chest Pain:} Another concerning symptom appearing in about half of patients.
 \end{itemize}
 
-\subsection{Các bước làm sạch và tiền xử lý dữ liệu}
+It's noteworthy that most symptoms appear in both genders, but the rates may differ. This suggests that although the basic symptoms are similar, the clinical presentation of lung cancer may have differences between males and females, requiring a personalized approach to diagnosis and treatment.
 
-Để chuẩn bị dữ liệu cho việc huấn luyện mô hình, các bước sau đã được thực hiện:
+Correlation analysis (Figure \ref{fig:correlation_matrix} - see Appendix if available) shows some notable correlations between symptoms, such as between Allergy and Wheezing, or between Coughing and Shortness of Breath.
+
+\subsection{Collected Features and Encoding}
+
+The following features were collected and encoded:
 \begin{itemize}
-    \item \textbf{Xử lý giá trị thiếu:} Các bản ghi có giá trị bị thiếu đã được xử lý bằng cách loại bỏ hoặc sử dụng các kỹ thuật điền khuyết (imputation) phù hợp (ví dụ: điền bằng giá trị trung bình, trung vị hoặc mode).
-    \item \textbf{Mã hóa biến hạng mục (Categorical Encoding):} Các đặc trưng hạng mục (ví dụ: Giới tính) đã được chuyển đổi thành dạng số bằng kỹ thuật mã hóa one-hot (one-hot encoding).
-    \item \textbf{Chuẩn hóa biến liên tục (Continuous Variable Standardization):} Các đặc trưng liên tục (ví dụ: Tuổi) đã được chuẩn hóa (ví dụ: sử dụng Z-score standardization) để có giá trị trung bình bằng 0 và độ lệch chuẩn bằng 1, giúp các thuật toán học máy hoạt động hiệu quả hơn.
+    \item \textbf{Demographics:} Gender (GENDER - Encoded: 'M' to 'Male', 'F' to 'Female', then one-hot encoded into `MALE` and `FEMALE`), Age (AGE - kept as numeric).
+    \item \textbf{Lifestyle and Symptoms:} The remaining variables (SMOKING, YELLOW\_FINGERS, ANXIETY, etc.) originally had values of 2 (Yes) and 1 (No). They were kept in this numeric form during XGBoost model training because tree-based algorithms can handle these types of categorical variables.
+    \item \textbf{Target Label:} Lung cancer diagnosis (LUNG\_CANCER - Encoded: 'YES' to 1, 'NO' to 0).
 \end{itemize}
 
-\subsection{Kỹ thuật đặc trưng (Feature Engineering)}
+\subsection{Data Preprocessing Steps}
 
-Một số kỹ thuật đặc trưng đơn giản đã được áp dụng:
+To prepare data for model training, the following steps were performed based on the EDA notebook:
 \begin{itemize}
-    \item \textbf{Tạo cờ nhị phân (Binary Flags):} Chuyển đổi các đặc trưng triệu chứng thành dạng cờ nhị phân (0 hoặc 1) để biểu thị sự có mặt hay vắng mặt của triệu chứng.
-    \item \textbf{Tổng hợp điểm rủi ro (Composite Score - tùy chọn):} Có thể xem xét việc tạo ra một điểm số rủi ro tổng hợp dựa trên sự kết hợp của các yếu tố nguy cơ đã biết (ví dụ: tuổi, hút thuốc, bệnh mãn tính). Tuy nhiên, trong nhiều trường hợp, để mô hình tự học các mối quan hệ phức tạp sẽ hiệu quả hơn.
+    \item \textbf{Handling Missing Values:} No missing values were detected in this dataset.
+    \item \textbf{Removing Duplicates:} 33 duplicate records were removed.
+    \item \textbf{Categorical Variable Encoding:} The `GENDER` variable was one-hot encoded. The target variable `LUNG_CANCER` was label encoded.
+    \item \textbf{Continuous Variable Standardization:} All input features (including symptom variables with values 1/2 and age) were standardized using `StandardScaler` to have a mean of 0 and standard deviation of 1.
+    \item \textbf{Feature Selection and Ordering:} Columns were renamed (e.g., `FATIGUE ` to `FATIGUE`) and reordered in a specific sequence before standardization and training.
 \end{itemize}
 
-\subsection{Phân chia tập dữ liệu Huấn luyện - Kiểm tra (Train-Test Split)}
+% \subsection{Feature Engineering}
+% No complex feature engineering techniques were applied beyond encoding and standardizing existing variables.
 
-Tập dữ liệu đã được chia thành hai phần: tập huấn luyện (80%) và tập kiểm tra (20%). Việc phân chia được thực hiện bằng phương pháp phân chia có phân tầng (stratified split) để đảm bảo rằng tỷ lệ các trường hợp ung thư phổi (lớp dương tính) trong cả hai tập dữ liệu là tương đương nhau. Điều này rất quan trọng đối với các tập dữ liệu mất cân bằng để đánh giá mô hình một cách chính xác.
+\subsection{Train-Test Data Split}
+
+The dataset was divided into two parts: training set (80\%) and test set (20\%) using `train_test_split` from scikit-learn with `random_state=42`. Although not explicitly mentioned in the notebook about using stratified splitting, this is a good practice for classification problems, especially if there is class imbalance.

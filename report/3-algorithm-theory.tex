@@ -1,37 +1,37 @@
-\section{Lý thuyết thuật toán}
+\section{Algorithm Theory}
 
-Trong lĩnh vực học máy, bài toán phân loại (classification) là một nhiệm vụ phổ biến nhằm mục đích gán một nhãn lớp (category) cho một mẫu dữ liệu đầu vào dựa trên các đặc trưng (features) của nó. Có nhiều thuật toán phân loại khác nhau, mỗi loại có điểm mạnh và điểm yếu riêng, phù hợp với các loại dữ liệu và vấn đề khác nhau.
+In machine learning, classification is a common task that aims to assign a category label to an input data sample based on its features. There are many different classification algorithms, each with its own strengths and weaknesses, suitable for different types of data and problems.
 
-\subsection{Các thuật toán phân loại phổ biến}
-Một số thuật toán phân loại thường được sử dụng bao gồm:
+\subsection{Common Classification Algorithms}
+Some commonly used classification algorithms include:
 \begin{itemize}
-    \item \textbf{Hồi quy Logistic (Logistic Regression):} Một mô hình tuyến tính đơn giản nhưng hiệu quả, thường được sử dụng làm đường cơ sở (baseline). Nó mô hình hóa xác suất của một lớp nhị phân bằng cách sử dụng hàm sigmoid.
-    \item \textbf{Máy Vector Hỗ trợ (Support Vector Machine - SVM):} Tìm kiếm một siêu phẳng (hyperplane) tối ưu để phân tách các lớp dữ liệu trong không gian đặc trưng. SVM hiệu quả trong không gian nhiều chiều và khi số chiều lớn hơn số lượng mẫu.
-    \item \textbf{Cây quyết định (Decision Tree):} Xây dựng một mô hình dạng cây, trong đó mỗi nút bên trong đại diện cho một bài kiểm tra trên một đặc trưng, mỗi nhánh đại diện cho kết quả của bài kiểm tra và mỗi nút lá đại diện cho một nhãn lớp. Cây quyết định dễ diễn giải nhưng dễ bị quá khớp (overfitting).
-    \item \textbf{Rừng ngẫu nhiên (Random Forest):} Một thuật toán học tập tập thể (ensemble learning) xây dựng nhiều cây quyết định trong quá trình huấn luyện và đưa ra lớp là chế độ (mode) của các lớp (phân loại) hoặc dự đoán trung bình (hồi quy) của các cây riêng lẻ. Nó giảm thiểu hiện tượng quá khớp của cây quyết định đơn lẻ.
-    \item \textbf{Naïve Bayes:} Dựa trên định lý Bayes với giả định "ngây thơ" (naïve) về tính độc lập có điều kiện giữa các đặc trưng. Nó đơn giản, nhanh chóng và hoạt động tốt trên các tập dữ liệu lớn.
-    \item \textbf{Gradient Boosting Machines (GBM):} Một kỹ thuật học tập tập thể khác xây dựng các mô hình (thường là cây quyết định) một cách tuần tự, trong đó mỗi mô hình mới cố gắng sửa lỗi của mô hình trước đó. Các biến thể phổ biến bao gồm AdaBoost, Gradient Boosting và XGBoost.
+    \item \textbf{Logistic Regression:} A simple but effective linear model, often used as a baseline. It models the probability of a binary class using the sigmoid function.
+    \item \textbf{Support Vector Machine (SVM):} Searches for an optimal hyperplane to separate data classes in feature space. SVM is effective in high-dimensional spaces and when the number of dimensions is greater than the number of samples.
+    \item \textbf{Decision Tree:} Builds a tree-like model where each internal node represents a test on a feature, each branch represents the outcome of the test, and each leaf node represents a class label. Decision trees are easy to interpret but prone to overfitting.
+    \item \textbf{Random Forest:} An ensemble learning algorithm that builds multiple decision trees during training and outputs the mode of the classes (for classification) or mean prediction (for regression) of the individual trees. It reduces the overfitting problem of single decision trees.
+    \item \textbf{Naïve Bayes:} Based on Bayes' theorem with a "naïve" assumption of conditional independence between features. It is simple, fast, and works well on large datasets.
+    \item \textbf{Gradient Boosting Machines (GBM):} Another ensemble learning technique that builds models (usually decision trees) sequentially, with each new model trying to correct the errors of previous models. Popular variations include AdaBoost, Gradient Boosting, and XGBoost.
 \end{itemize}
 
-\subsection{Lựa chọn XGBoost}
+\subsection{Choosing XGBoost}
 
-Trong dự án này, chúng tôi đã chọn sử dụng XGBoost (eXtreme Gradient Boosting) làm thuật toán phân loại chính vì những lý do sau:
+In this project, we chose XGBoost (eXtreme Gradient Boosting) as the main classification algorithm for the following reasons:
 \begin{itemize}
-    \item \textbf{Hiệu suất cao:} XGBoost thường xuyên đạt được kết quả hàng đầu trong các cuộc thi học máy và được biết đến với độ chính xác dự đoán cao trên dữ liệu dạng bảng (tabular data).
-    \item \textbf{Tối ưu hóa và tốc độ:} Thư viện XGBoost được tối ưu hóa cao về tốc độ và việc sử dụng bộ nhớ. Nó triển khai các kỹ thuật như tính toán song song, xử lý giá trị thiếu và cắt tỉa cây hiệu quả.
-    \item \textbf{Khả năng chống quá khớp:} XGBoost tích hợp các kỹ thuật điều chuẩn (regularization) như L1 (Lasso) và L2 (Ridge) trực tiếp vào hàm mục tiêu, giúp giảm thiểu hiện tượng quá khớp và cải thiện khả năng tổng quát hóa của mô hình.
-    \item \textbf{Xử lý giá trị thiếu:} XGBoost có cơ chế tích hợp để xử lý các giá trị bị thiếu trong dữ liệu, giúp đơn giản hóa quá trình tiền xử lý.
-    \item \textbf{Tính linh hoạt:} XGBoost hỗ trợ các hàm mục tiêu và hàm đánh giá tùy chỉnh, cho phép tinh chỉnh mô hình cho các bài toán cụ thể.
+    \item \textbf{High Performance:} XGBoost consistently achieves top results in machine learning competitions and is known for high prediction accuracy on tabular data.
+    \item \textbf{Optimization and Speed:} The XGBoost library is highly optimized for speed and memory usage. It implements techniques such as parallel computing, handling of missing values, and efficient tree pruning.
+    \item \textbf{Overfitting Prevention:} XGBoost incorporates regularization techniques such as L1 (Lasso) and L2 (Ridge) directly into its objective function, helping to minimize overfitting and improve model generalization.
+    \item \textbf{Handling Missing Values:} XGBoost has built-in mechanisms to handle missing values in data, simplifying the preprocessing process.
+    \item \textbf{Flexibility:} XGBoost supports custom objective and evaluation functions, allowing model fine-tuning for specific problems.
 \end{itemize}
 
-So với các thuật toán khác, XGBoost cung cấp sự cân bằng tốt giữa độ chính xác, tốc độ và khả năng kiểm soát quá khớp, đặc biệt phù hợp với loại dữ liệu y tế dạng bảng mà dự án này sử dụng.
+Compared to other algorithms, XGBoost provides a good balance between accuracy, speed, and overfitting control, making it especially suitable for the tabular medical data used in this project.
 
-\subsection{Tổng quan về XGBoost}
-XGBoost là một triển khai tối ưu hóa của thuật toán Gradient Boosting. Các khái niệm chính bao gồm:
+\subsection{Overview of XGBoost}
+XGBoost is an optimized implementation of the Gradient Boosting algorithm. Key concepts include:
 \begin{itemize}
-    \item \textbf{Gradient Boosting:} Là một phương pháp học máy tập thể, xây dựng mô hình dự đoán dưới dạng một tập hợp các mô hình dự đoán yếu (thường là cây quyết định). Nó xây dựng các cây một cách tuần tự, với mỗi cây mới học cách sửa lỗi (phần dư - residuals) của tập hợp cây trước đó. Thay vì điều chỉnh trọng số của các điểm dữ liệu như AdaBoost, Gradient Boosting điều chỉnh mô hình dựa trên gradient của hàm mất mát.
-    \item \textbf{Điều chuẩn (Regularization):} Để ngăn chặn hiện tượng quá khớp, XGBoost thêm các thành phần điều chuẩn vào hàm mục tiêu của nó. Điều này bao gồm cả điều chuẩn L1 (giúp giảm số lượng đặc trưng) và điều chuẩn L2 (giúp giảm độ lớn của trọng số lá), làm cho mô hình tổng quát hóa tốt hơn trên dữ liệu chưa thấy.
-    \item \textbf{Cắt tỉa cây và xử lý dữ liệu thưa (Sparsity Awareness):} XGBoost sử dụng một thuật toán xấp xỉ hiệu quả để tìm các điểm chia tối ưu và thực hiện cắt tỉa cây dựa trên độ lợi (gain) âm tối đa. Nó cũng được thiết kế để xử lý hiệu quả các giá trị bị thiếu trong dữ liệu bằng cách học hướng đi mặc định tại mỗi nút.
-    \item \textbf{Tối ưu hóa hệ thống:} XGBoost tận dụng các kỹ thuật tối ưu hóa phần cứng và phần mềm như tính toán song song (sử dụng tất cả các lõi CPU), tính toán phân tán, tối ưu hóa bộ nhớ cache và tính toán ngoài bộ nhớ (out-of-core computation) để xử lý các tập dữ liệu lớn một cách hiệu quả.
+    \item \textbf{Gradient Boosting:} An ensemble machine learning method that builds prediction models as a combination of weak prediction models (usually decision trees). It builds trees sequentially, with each new tree learning to correct the errors (residuals) of the previous tree set. Unlike AdaBoost which adjusts data point weights, Gradient Boosting adjusts the model based on the gradient of the loss function.
+    \item \textbf{Regularization:} To prevent overfitting, XGBoost adds regularization components to its objective function. This includes both L1 regularization (helping reduce the number of features) and L2 regularization (helping reduce the magnitude of leaf weights), making the model generalize better on unseen data.
+    \item \textbf{Tree Pruning and Sparsity Awareness:} XGBoost uses an efficient approximation algorithm to find optimal split points and performs tree pruning based on the maximum negative gain. It is also designed to handle missing values in data efficiently by learning default directions at each node.
+    \item \textbf{System Optimization:} XGBoost leverages hardware and software optimization techniques such as parallel computing (using all CPU cores), distributed computing, memory cache optimization, and out-of-core computation to process large datasets efficiently.
 \end{itemize}
-Sự kết hợp của các kỹ thuật này giúp XGBoost mang lại hiệu suất dự đoán cao và khả năng mở rộng tốt cho dữ liệu dạng bảng có cấu trúc, làm cho nó trở thành lựa chọn phù hợp cho bài toán chẩn đoán sớm ung thư phổi.
+The combination of these techniques helps XGBoost deliver high prediction performance and good scalability for structured tabular data, making it a suitable choice for the early diagnosis of lung cancer.

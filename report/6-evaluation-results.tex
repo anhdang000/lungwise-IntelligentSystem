@@ -1,48 +1,48 @@
-\section{Kết quả đánh giá}
+\section{Evaluation Results}
 
-Hiệu suất của mô hình XGBoost đã được đánh giá trên tập dữ liệu kiểm tra (hold-out set) bằng cách sử dụng các chỉ số đánh giá tiêu chuẩn cho bài toán phân loại.
+The performance of the XGBoost model was evaluated on the hold-out test set using standard evaluation metrics for classification problems.
 
-\subsection{Các chỉ số đánh giá chính}
+\subsection{Key Performance Metrics}
 
-Các chỉ số hiệu suất chính của mô hình trên tập kiểm tra là:
+The main performance metrics of the model on the test set are:
 \begin{itemize}
-    \item \textbf{Độ chính xác (Accuracy):} 0.88. Tỷ lệ tổng số dự đoán đúng trên tổng số mẫu.
-    \item \textbf{Độ chuẩn xác (Precision):} 0.84. Tỷ lệ các trường hợp được dự đoán là dương tính mà thực sự là dương tính (TP / (TP + FP)).
-    \item \textbf{Độ phủ (Recall / Sensitivity):} 0.81. Tỷ lệ các trường hợp dương tính thực sự mà mô hình dự đoán đúng (TP / (TP + FN)).
-    \item \textbf{Điểm F1 (F1-Score):} 0.82. Trung bình điều hòa của Precision và Recall, cung cấp một thước đo cân bằng giữa hai chỉ số này (2 * (Precision * Recall) / (Precision + Recall)).
-    \item \textbf{AUC-ROC (Area Under the Receiver Operating Characteristic Curve):} 0.91 (Khoảng tin cậy 95%: 0.88 – 0.94). Diện tích dưới đường cong ROC, thể hiện khả năng phân biệt giữa các lớp dương tính và âm tính của mô hình trên tất cả các ngưỡng phân loại.
+    \item \textbf{Accuracy:} 0.88. The ratio of total correct predictions to the total number of samples.
+    \item \textbf{Precision:} 0.84. The ratio of correctly predicted positive cases to all predicted positive cases (TP / (TP + FP)).
+    \item \textbf{Recall / Sensitivity:} 0.81. The ratio of correctly predicted positive cases to all actual positive cases (TP / (TP + FN)).
+    \item \textbf{F1-Score:} 0.82. The harmonic mean of Precision and Recall, providing a balanced measure between these two metrics (2 * (Precision * Recall) / (Precision + Recall)).
+    \item \textbf{AUC-ROC (Area Under the Receiver Operating Characteristic Curve):} 0.91 (95\% Confidence Interval: 0.88 – 0.94). The area under the ROC curve, showing the model's ability to distinguish between positive and negative classes across all classification thresholds.
 \end{itemize}
 
-\subsection{Ma trận nhầm lẫn (Confusion Matrix)}
+\subsection{Confusion Matrix}
 
-Ma trận nhầm lẫn cung cấp cái nhìn chi tiết hơn về hiệu suất của mô hình bằng cách phân tách các dự đoán đúng và sai cho từng lớp:
+The confusion matrix provides a more detailed view of model performance by breaking down correct and incorrect predictions for each class:
 
 \begin{center}
 \begin{tabular}{cc|c|c|}
-  & \multicolumn{1}{c}{} & \multicolumn{2}{c}{Giá trị dự đoán} \\
-  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{Ung thư (1)}  & \multicolumn{1}{c}{Không ung thư (0)} \\
+  & \multicolumn{1}{c}{} & \multicolumn{2}{c}{Predicted Value} \\
+  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{Cancer (1)}  & \multicolumn{1}{c}{No Cancer (0)} \\
   \cline{3-4}
-Giá trị thực tế & Ung thư (1) & \textbf{124} (TP) & 29 (FN) \\
+Actual Value & Cancer (1) & \textbf{124} (TP) & 29 (FN) \\
   \cline{3-4}
-  & Không ung thư (0) & 23 (FP) & \textbf{214} (TN) \\
+  & No Cancer (0) & 23 (FP) & \textbf{214} (TN) \\
   \cline{3-4}
 \end{tabular}
 \end{center}
 
-Trong đó:
+Where:
 \begin{itemize}
-    \item \textbf{True Positives (TP):} 124 - Số trường hợp ung thư được dự đoán đúng.
-    \item \textbf{False Negatives (FN):} 29 - Số trường hợp ung thư bị dự đoán sai là không ung thư.
-    \item \textbf{False Positives (FP):} 23 - Số trường hợp không ung thư bị dự đoán sai là ung thư.
-    \item \textbf{True Negatives (TN):} 214 - Số trường hợp không ung thư được dự đoán đúng.
+    \item \textbf{True Positives (TP):} 124 - Number of cancer cases correctly predicted.
+    \item \textbf{False Negatives (FN):} 29 - Number of cancer cases incorrectly predicted as non-cancer.
+    \item \textbf{False Positives (FP):} 23 - Number of non-cancer cases incorrectly predicted as cancer.
+    \item \textbf{True Negatives (TN):} 214 - Number of non-cancer cases correctly predicted.
 \end{itemize}
 
-\subsection{Thảo luận kết quả}
+\subsection{Results Discussion}
 
-Kết quả đánh giá cho thấy mô hình XGBoost có khả năng phân biệt tốt giữa các bệnh nhân có nguy cơ ung thư phổi cao và thấp, thể hiện qua giá trị AUC-ROC cao (0.91). Độ chính xác tổng thể là 0.88, cho thấy mô hình hoạt động tốt trên tập dữ liệu kiểm tra.
+The evaluation results show that the XGBoost model has good ability to distinguish between patients with high and low lung cancer risk, demonstrated by the high AUC-ROC value (0.91). The overall accuracy is 0.88, showing that the model performs well on the test dataset.
 
-Tuy nhiên, cần lưu ý đến giá trị Recall (0.81), nghĩa là mô hình đã bỏ sót 29 trường hợp ung thư thực sự (False Negatives). Trong bối cảnh y tế, việc bỏ sót các trường hợp dương tính có thể gây hậu quả nghiêm trọng. Độ chuẩn xác (Precision) là 0.84, cho thấy trong số các trường hợp được dự đoán là ung thư, có một tỷ lệ nhỏ (khoảng 16%) là dự đoán sai (False Positives).
+However, it's important to note the Recall value (0.81), which means the model missed 29 actual cancer cases (False Negatives). In a medical context, missing positive cases can have serious consequences. The Precision is 0.84, showing that among cases predicted as cancer, a small percentage (about 16\%) are incorrect predictions (False Positives).
 
-Có thể cải thiện độ nhạy (Recall) của mô hình bằng cách điều chỉnh ngưỡng phân loại (classification threshold). Việc giảm ngưỡng có thể giúp phát hiện nhiều trường hợp dương tính hơn nhưng cũng có thể làm tăng số lượng False Positives. Sự cân bằng giữa Precision và Recall (thể hiện qua F1-Score là 0.82) cần được xem xét cẩn thận dựa trên mục tiêu lâm sàng cụ thể và mức độ chấp nhận rủi ro.
+The model's sensitivity (Recall) could be improved by adjusting the classification threshold. Lowering the threshold may help detect more positive cases but could also increase the number of False Positives. The balance between Precision and Recall (reflected in the F1-Score of 0.82) needs to be carefully considered based on specific clinical goals and acceptable risk levels.
 
-Nhìn chung, hiệu suất của mô hình là đáng khích lệ và có thể so sánh thuận lợi với các tiêu chuẩn đánh giá lâm sàng hiện có, cung cấp một công cụ hỗ trợ tiềm năng cho các bác sĩ.
+Overall, the model's performance is encouraging and compares favorably with existing clinical evaluation standards, providing a potential support tool for doctors.
