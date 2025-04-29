@@ -64,11 +64,14 @@ XGBoost (eXtreme Gradient Boosting) is an optimized distributed gradient boostin
 
 ## 6. Evaluation Results
 
-- **Accuracy:** 0.88 on the hold-out set
-- **Precision / Recall / F1:** 0.84 / 0.81 / 0.82
-- **AUC-ROC:** 0.91 (95% CI: 0.88–0.94)
-- **Confusion Matrix:** True Positives: 124, False Positives: 23, False Negatives: 29, True Negatives: 214
-- **Discussion:** The model demonstrates robust discrimination between high and low risk, though sensitivity can be improved by adjusting the classification threshold. Performance compares favorably to clinician benchmarks.
+- **Accuracy:** 91.07% on the hold-out set
+- **Precision:** Class 0 (No Cancer): 1.00, Class 1 (Cancer): 0.90
+- **Recall:** Class 0 (No Cancer): 0.58, Class 1 (Cancer): 1.00
+- **F1-Score:** Class 0 (No Cancer): 0.74, Class 1 (Cancer): 0.95
+- **Macro Average:** Precision: 0.95, Recall: 0.79, F1-Score: 0.84
+- **Weighted Average:** Precision: 0.92, Recall: 0.91, F1-Score: 0.90
+- **Confusion Matrix:** True Positives: 44, False Positives: 5, False Negatives: 0, True Negatives: 7
+- **Discussion:** The model demonstrates excellent performance in identifying positive cancer cases with a perfect recall of 1.00, meaning no cancer cases were missed. While there are a few false positives (5 cases), this trade-off is acceptable in medical screening where missing a cancer case would be more problematic than a false alarm.
 
 ## 7. Conclusion
 

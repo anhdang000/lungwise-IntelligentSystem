@@ -6,11 +6,12 @@ The performance of the XGBoost model was evaluated on the hold-out test set usin
 
 The main performance metrics of the model on the test set are:
 \begin{itemize}
-    \item \textbf{Accuracy:} 0.88. The ratio of total correct predictions to the total number of samples.
-    \item \textbf{Precision:} 0.84. The ratio of correctly predicted positive cases to all predicted positive cases (TP / (TP + FP)).
-    \item \textbf{Recall / Sensitivity:} 0.81. The ratio of correctly predicted positive cases to all actual positive cases (TP / (TP + FN)).
-    \item \textbf{F1-Score:} 0.82. The harmonic mean of Precision and Recall, providing a balanced measure between these two metrics (2 * (Precision * Recall) / (Precision + Recall)).
-    \item \textbf{AUC-ROC (Area Under the Receiver Operating Characteristic Curve):} 0.91 (95\% Confidence Interval: 0.88 – 0.94). The area under the ROC curve, showing the model's ability to distinguish between positive and negative classes across all classification thresholds.
+    \item \textbf{Accuracy:} 0.91 (91.07\%). The ratio of total correct predictions to the total number of samples.
+    \item \textbf{Precision:} For class 1 (Cancer): 0.90. The ratio of correctly predicted positive cases to all predicted positive cases (TP / (TP + FP)).
+    \item \textbf{Recall / Sensitivity:} For class 1 (Cancer): 1.00. The ratio of correctly predicted positive cases to all actual positive cases (TP / (TP + FN)).
+    \item \textbf{F1-Score:} For class 1 (Cancer): 0.95. The harmonic mean of Precision and Recall, providing a balanced measure between these two metrics.
+    \item \textbf{Macro Avg:} Precision: 0.95, Recall: 0.79, F1-Score: 0.84. Average metrics calculated for each class separately.
+    \item \textbf{Weighted Avg:} Precision: 0.92, Recall: 0.91, F1-Score: 0.90. Average metrics weighted by the number of samples in each class.
 \end{itemize}
 
 \subsection{Confusion Matrix}
@@ -20,29 +21,31 @@ The confusion matrix provides a more detailed view of model performance by break
 \begin{center}
 \begin{tabular}{cc|c|c|}
   & \multicolumn{1}{c}{} & \multicolumn{2}{c}{Predicted Value} \\
-  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{Cancer (1)}  & \multicolumn{1}{c}{No Cancer (0)} \\
+  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{No Cancer (0)}  & \multicolumn{1}{c}{Cancer (1)} \\
   \cline{3-4}
-Actual Value & Cancer (1) & \textbf{124} (TP) & 29 (FN) \\
+Actual Value & No Cancer (0) & \textbf{7} (TN) & 5 (FP) \\
   \cline{3-4}
-  & No Cancer (0) & 23 (FP) & \textbf{214} (TN) \\
+  & Cancer (1) & 0 (FN) & \textbf{44} (TP) \\
   \cline{3-4}
 \end{tabular}
 \end{center}
 
 Where:
 \begin{itemize}
-    \item \textbf{True Positives (TP):} 124 - Number of cancer cases correctly predicted.
-    \item \textbf{False Negatives (FN):} 29 - Number of cancer cases incorrectly predicted as non-cancer.
-    \item \textbf{False Positives (FP):} 23 - Number of non-cancer cases incorrectly predicted as cancer.
-    \item \textbf{True Negatives (TN):} 214 - Number of non-cancer cases correctly predicted.
+    \item \textbf{True Positives (TP):} 44 - Number of cancer cases correctly predicted.
+    \item \textbf{False Negatives (FN):} 0 - Number of cancer cases incorrectly predicted as non-cancer.
+    \item \textbf{False Positives (FP):} 5 - Number of non-cancer cases incorrectly predicted as cancer.
+    \item \textbf{True Negatives (TN):} 7 - Number of non-cancer cases correctly predicted.
 \end{itemize}
 
 \subsection{Results Discussion}
 
-The evaluation results show that the XGBoost model has good ability to distinguish between patients with high and low lung cancer risk, demonstrated by the high AUC-ROC value (0.91). The overall accuracy is 0.88, showing that the model performs well on the test dataset.
+The evaluation results show that the XGBoost model has excellent ability to distinguish between patients with high and low lung cancer risk. The overall accuracy is 91.07\%, showing that the model performs very well on the test dataset.
 
-However, it's important to note the Recall value (0.81), which means the model missed 29 actual cancer cases (False Negatives). In a medical context, missing positive cases can have serious consequences. The Precision is 0.84, showing that among cases predicted as cancer, a small percentage (about 16\%) are incorrect predictions (False Positives).
+The most notable achievement is the perfect Recall score of 1.00 for the positive class (cancer), meaning the model successfully identified all actual cancer cases without any false negatives. This is particularly important in a medical context, where missing positive cases can have serious consequences.
 
-The model's sensitivity (Recall) could be improved by adjusting the classification threshold. Lowering the threshold may help detect more positive cases but could also increase the number of False Positives. The balance between Precision and Recall (reflected in the F1-Score of 0.82) needs to be carefully considered based on specific clinical goals and acceptable risk levels.
+The Precision for cancer prediction is 0.90, showing that among cases predicted as cancer, a small percentage (about 10\%) are incorrect predictions (False Positives). While the model has some room for improvement in reducing false positives, this trade-off is often acceptable in medical screening contexts where it's generally preferable to have some false alarms than to miss actual cases.
 
-Overall, the model's performance is encouraging and compares favorably with existing clinical evaluation standards, providing a potential support tool for doctors.
+For the negative class (non-cancer), the precision is perfect (1.00), but the recall is lower (0.58), indicating that some non-cancer cases are incorrectly classified as cancer. This is reflected in the 5 false positives observed in the confusion matrix.
+
+Overall, the model's performance is excellent, particularly for the critical task of identifying positive cancer cases. The high F1-score of 0.95 for cancer detection demonstrates a strong balance between precision and recall for the positive class. This model would provide valuable decision support for medical professionals in lung cancer screening contexts.

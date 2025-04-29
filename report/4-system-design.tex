@@ -32,21 +32,31 @@ The images below illustrate the user interface design for the main screens of th
 
 \begin{figure}[h]
     \centering
-    % \includegraphics[width=0.8\textwidth]{Images/dashboard_mockup.png} % Placeholder
-    \fbox{Placeholder: Dashboard Mockup}
-    \caption{Mockup of the main dashboard interface.}
+    \includegraphics[width=0.9\textwidth]{Images/dashboard.png}
+    \caption{The main patient dashboard interface showing patient list, risk categorization, and filtering options.}
     \label{fig:dashboard_mockup}
 \end{figure}
 
 \begin{figure}[h]
     \centering
-    % \includegraphics[width=0.8\textwidth]{Images/patient_detail_mockup.png} % Placeholder
-    \fbox{Placeholder: Patient Detail Mockup}
-    \caption{Mockup of the patient detail interface.}
+    \includegraphics[width=0.9\textwidth]{Images/patient_detail.png}
+    \caption{Patient detail interface showing personal information, symptoms summary, diagnostic assessment, and monitoring history.}
     \label{fig:patient_detail_mockup}
 \end{figure}
 
-% ... (Add more mockup images if needed) ...
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Images/patient_update_symptoms.png}
+    \caption{Patient symptom update interface allowing healthcare providers to record current symptoms and their severity.}
+    \label{fig:symptom_update}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Images/doctor_feedback_box.png}
+    \caption{Doctor feedback interface where physicians can provide their clinical assessment and treatment recommendations based on updated symptoms and AI risk prediction.}
+    \label{fig:doctor_feedback}
+\end{figure}
 
 \subsection{Backend Services}
 
@@ -78,4 +88,74 @@ The database stores all important information for the system.
 \begin{itemize}
     \item \textbf{Database Management System:} PostgreSQL was chosen as the main relational database. PostgreSQL is known for its reliability, rich features, and scalability, making it suitable for storing structured data such as patient records, symptom logs, and monitoring events.
     \item \textbf{Real-time Updates:} Leveraging Supabase's real-time subscriptions feature (or a similar PostgreSQL-based solution) to push data updates (e.g., new prediction results, changed patient information) from backend to client automatically, ensuring the user interface always displays the latest information without manual refreshing.
+\end{itemize}
+
+\subsection{System Architecture Diagram}
+
+Figure \ref{fig:system_architecture} illustrates the overall architecture and interaction between the different components of the LungWise application.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.5cm and 3cm,
+        box/.style={draw, rounded corners, minimum width=3cm, minimum height=1.5cm, fill=blue!10, text width=3cm, align=center},
+        arrow/.style={->, >=latex, thick},
+        database/.style={cylinder, draw, shape border rotate=90, aspect=0.3, minimum width=1.5cm, minimum height=2cm, fill=green!10, text width=1.5cm, align=center},
+        model/.style={ellipse, draw, minimum width=2cm, minimum height=1.5cm, fill=orange!20, text width=2.5cm, align=center}
+    ]
+    
+    % Client tier
+    \node[box, fill=blue!10] (ui) {User Interface\\(React, TypeScript)};
+    \node[below=0.2cm of ui, align=center] (uitech) {\small Tailwind CSS\\Shadcn/UI};
+    
+    % Server tier
+    \node[box, fill=purple!10, right=of ui] (api) {Backend API\\(FastAPI, Python)};
+    \node[below=0.2cm of api, align=center] (apitech) {\small REST Endpoints\\JWT Auth};
+    
+    % Model tier
+    \node[model, below right=of api] (model) {ML Model\\(XGBoost)};
+    
+    % Data tier
+    \node[database, below left=of api] (db) {Database\\(PostgreSQL)};
+    
+    % Connections
+    \draw[arrow] (ui) -- node[above] {\small HTTP/REST} (api);
+    \draw[arrow] (api) -- node[left] {\small CRUD} (db);
+    \draw[arrow] (db) -- node[below] {\small Patient Data} ([xshift=-1cm]api.south);
+    \draw[arrow] (api) -- node[right] {\small Features} (model);
+    \draw[arrow] (model) -- node[below] {\small Predictions} ([xshift=1cm]api.south);
+    \draw[arrow] ([xshift=1.5cm]api.west) -- node[below] {\small JSON} ([xshift=-1.5cm]ui.east);
+    
+    % Real-time subscription
+    \draw[arrow, dashed] (db) to[out=180, in=240] node[left] {\small Real-time\\Updates} (ui);
+    
+    % User
+    \node[left=of ui, align=center] (user) {\includegraphics[width=1cm]{Images/doctor-icon.png}\\Doctor};
+    \draw[arrow] (user) -- (ui);
+    
+    % System boundary
+    \node[draw, dashed, fit=(ui) (uitech) (api) (apitech) (db) (model), inner sep=0.5cm, rounded corners] (system) {};
+    \node[above] at (system.north) {LungWise System};
+    
+    \end{tikzpicture}
+    \caption{System architecture diagram of the LungWise application showing the interaction between the user interface, backend services, machine learning model, and database.}
+    \label{fig:system_architecture}
+\end{figure}
+
+As shown in the diagram, the LungWise system follows a modern three-tier architecture with clear separation of concerns:
+
+\begin{itemize}
+    \item The \textbf{Client Tier} consists of the React/TypeScript frontend that doctors interact with. It communicates with the backend via HTTP/REST calls and receives real-time updates through a subscription mechanism.
+    
+    \item The \textbf{Server Tier} contains the FastAPI backend that processes requests, enforces business logic, and orchestrates data flow between the client, database, and ML model.
+    
+    \item The \textbf{Data Tier} includes both the PostgreSQL database for persistent storage and the XGBoost model for risk predictions.
+\end{itemize}
+
+This architecture provides several advantages:
+\begin{itemize}
+    \item \textbf{Scalability:} Each component can be scaled independently based on demand.
+    \item \textbf{Maintainability:} Changes to one tier (e.g., updating the ML model) can be made without affecting other tiers.
+    \item \textbf{Security:} Sensitive operations and data access are handled on the server, not exposed to the client.
+    \item \textbf{Real-time capabilities:} Users receive immediate updates when data changes.
 \end{itemize}
