@@ -19,13 +19,6 @@ This section describes the main interaction flows of users (doctors) with the sy
     \item \textbf{Patient Detail Flow:} Doctors select a patient from the list to view detailed information, symptom history, and the latest AI prediction results.
     \item \textbf{Information Update Flow:} Doctors update new symptoms or monitoring notes for patients.
 \end{itemize}
-% (Optional: Add user flow diagram images here if available)
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{Images/user_flow_diagram.png}
-%     \caption{Flow diagram for viewing patient details.}
-%     \label{fig:user_flow}
-% \end{figure}
 
 \subsection{Mockups}
 The images below illustrate the user interface design for the main screens of the application.
@@ -96,9 +89,9 @@ Figure \ref{fig:system_architecture} illustrates the overall architecture and in
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}[
-        node distance=1.5cm and 3cm,
+        node distance=1.5cm and 3cm, % Vertical and horizontal distances
         box/.style={draw, rounded corners, minimum width=3cm, minimum height=1.5cm, fill=blue!10, text width=3cm, align=center},
-        arrow/.style={->, >=latex, thick},
+        arrow/.style={->, >=Latex, thick}, % Changed to Latex arrow tip
         database/.style={cylinder, draw, shape border rotate=90, aspect=0.3, minimum width=1.5cm, minimum height=2cm, fill=green!10, text width=1.5cm, align=center},
         model/.style={ellipse, draw, minimum width=2cm, minimum height=1.5cm, fill=orange!20, text width=2.5cm, align=center}
     ]
@@ -112,28 +105,29 @@ Figure \ref{fig:system_architecture} illustrates the overall architecture and in
     \node[below=0.2cm of api, align=center] (apitech) {\small REST Endpoints\\JWT Auth};
     
     % Model tier
-    \node[model, below right=of api] (model) {ML Model\\(XGBoost)};
+    \node[model, below right=1cm and 0.5cm of api] (model) {ML Model\\(XGBoost)}; % Adjusted positioning slightly
     
     % Data tier
-    \node[database, below left=of api] (db) {Database\\(PostgreSQL)};
+    \node[database, below left=1cm and 0.5cm of api] (db) {Database\\(PostgreSQL)}; % Adjusted positioning slightly
     
     % Connections
-    \draw[arrow] (ui) -- node[above] {\small HTTP/REST} (api);
-    \draw[arrow] (api) -- node[left] {\small CRUD} (db);
-    \draw[arrow] (db) -- node[below] {\small Patient Data} ([xshift=-1cm]api.south);
-    \draw[arrow] (api) -- node[right] {\small Features} (model);
-    \draw[arrow] (model) -- node[below] {\small Predictions} ([xshift=1cm]api.south);
-    \draw[arrow] ([xshift=1.5cm]api.west) -- node[below] {\small JSON} ([xshift=-1.5cm]ui.east);
+    \draw[arrow] (ui.east) -- node[above] {\small HTTP/REST} (api.west); % Use specific anchors
+    \draw[arrow] (api.south) -- node[left, pos=0.4] {\small CRUD} (db.north); % Use specific anchors
+    % Adjusted return paths for potentially cleaner look
+    \draw[arrow] (db.east) -- node[below left, pos=0.3] {\small Patient Data} (api.west); 
+    \draw[arrow] (api.east) -- node[above right, pos=0.3] {\small Features} (model.west);
+    \draw[arrow] (model.north) -- node[right, pos=0.6] {\small Predictions} (api.south); 
+    \draw[arrow] (api.west) -- node[below] {\small JSON} (ui.east); % Simplified return path
     
     % Real-time subscription
-    \draw[arrow, dashed] (db) to[out=180, in=240] node[left] {\small Real-time\\Updates} (ui);
+    \draw[arrow, dashed] (db.west) to[out=180, in=270] node[pos=0.4, left] {\small Real-time\\Updates} (ui.south); % Adjusted anchor/angles slightly
     
     % User
     \node[left=of ui, align=center] (user) {\includegraphics[width=1cm]{Images/doctor-icon.png}\\Doctor};
     \draw[arrow] (user) -- (ui);
     
-    % System boundary
-    \node[draw, dashed, fit=(ui) (uitech) (api) (apitech) (db) (model), inner sep=0.5cm, rounded corners] (system) {};
+    % System boundary (Ensure 'fit' library is loaded)
+    \node[draw, dashed, fit=(ui) (uitech) (api) (apitech) (db) (model), inner sep=0.6cm, rounded corners] (system) {}; % Slightly increased inner sep
     \node[above] at (system.north) {LungWise System};
     
     \end{tikzpicture}

@@ -4,7 +4,7 @@
 *Intelligent Systems Course*
 
 **Author:** Dang Linh Anh (2370113)
-**Supervisor:** Dr. Tran Tuan Anh
+**Supervisor:** Assoc. Prof. Quan Thanh Tho
 **Date:** April 28, 2025
 
 *Faculty of Computer Science & Engineering*
@@ -100,3 +100,11 @@ The predictive model is developed using:
 - XGBoost algorithm for classification
 - Python data science stack (pandas, scikit-learn)
 - Feature engineering based on clinical indicators
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js and Bun for frontend development
+- Python 3.10+ for backend and model development
+- PostgreSQL database

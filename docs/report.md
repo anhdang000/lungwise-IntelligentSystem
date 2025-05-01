@@ -4,7 +4,7 @@
 *Intelligent Systems Course*
 
 **Author:** Dang Linh Anh (2370113)
-**Supervisor:** Dr. Tran Tuan Anh
+**Supervisor:** Assoc. Prof. Quan Thanh Tho
 **Date:** April 28, 2025
 
 *Faculty of Computer Science & Engineering*
