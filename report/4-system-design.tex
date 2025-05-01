@@ -6,9 +6,9 @@ The Lung Cancer Early Diagnosis and Monitoring system is designed using a modern
 
 The user interface is built to provide an intuitive and efficient experience for doctors and medical staff.
 \begin{itemize}
-    \item \textbf{Core Technologies:} React and TypeScript. React was chosen for its rich ecosystem and ability to create dynamic user interfaces. TypeScript enhances code reliability and maintainability through static type checking.
-    \item \textbf{Styling:} Tailwind CSS is used for quick and consistent styling. It allows building highly customized interfaces without writing much custom CSS.
-    \item \textbf{Component Library:} Using a UI component library (e.g., Shadcn/ui or similar) to provide pre-built components like cards, forms, charts, and tables, helping to speed up development and ensure interface consistency.
+    \item \textbf{Core Technologies:} React \cite{react} and TypeScript \cite{typescript}. React was chosen for its rich ecosystem and ability to create dynamic user interfaces. TypeScript enhances code reliability and maintainability through static type checking.
+    \item \textbf{Styling:} Tailwind CSS \cite{tailwindcss} is used for quick and consistent styling. It allows building highly customized interfaces without writing much custom CSS.
+    \item \textbf{Component Library:} Using a UI component library (e.g., Shadcn/ui \cite{shadcnui} or similar) to provide pre-built components like cards, forms, charts, and tables, helping to speed up development and ensure interface consistency.
     \item \textbf{UI Theme:} Applying a color scheme with light blue tones as the main colors. These colors were chosen to create a sense of trust, professionalism, and readability in clinical settings, reducing eye strain during long periods of use.
 \end{itemize}
 
@@ -62,8 +62,8 @@ The images below illustrate the user interface design for the main screens of th
 
 The backend service plays a central role, handling business logic, data management, and interaction with the AI model. It provides a RESTful application programming interface (API) for the frontend to interact with.
 \begin{itemize}
-    \item \textbf{Core Technology:} FastAPI (Python). FastAPI was chosen for its high performance, modern syntax based on Python type hints, and ability to automatically generate API documentation (Swagger UI/ReDoc).
-    \item \textbf{Deployment:} The backend system is packaged as Docker services, facilitating deployment, management, and scaling across different environments.
+    \item \textbf{Core Technology:} FastAPI \cite{fastapi} (Python). FastAPI was chosen for its high performance, modern syntax based on Python type hints, and ability to automatically generate API documentation (Swagger UI/ReDoc).
+    \item \textbf{Deployment:} The backend system is packaged as Docker \cite{docker} services, facilitating deployment, management, and scaling across different environments.
     \item \textbf{Key APIs:} The main RESTful endpoints include:
         \begin{itemize}
             \item \texttt{GET /patients}: Get a list of patients (supports search and filtering).
@@ -73,21 +73,20 @@ The backend service plays a central role, handling business logic, data manageme
             \item \texttt{GET /patients/\{patient\_id\}/history}: Get monitoring history (diagnoses, old symptoms) of a patient.
             \item \texttt{POST /patients/\{patient\_id\}/diagnoses}: Add a new diagnosis record, including calling the AI model to get risk prediction and storing the results along with doctor's notes.
             \item \texttt{POST /patients/\{patient\_id\}/symptoms}: Update current patient symptoms.
-            \item \texttt{POST /predict}: Receive patient data (features) and return lung cancer risk prediction from the XGBoost model. (Usually called internally when creating a new diagnosis, but can be provided separately if needed).
+            \item \texttt{POST /predict}: Receive patient data (features) and return lung cancer risk prediction from the XGBoost \cite{chen2016xgboost} model. (Usually called internally when creating a new diagnosis, but can be provided separately if needed).
             \item \texttt{GET /model/info}: Get information about the ML model version being used (e.g., training date, key performance metrics).
             \item \texttt{POST /explain}: Receive patient data and return explanation for the prediction (e.g., using SHAP values to identify most influential features).
             \item \texttt{POST /retrain}: Trigger the ML model retraining process (typically protected and only for administrators or automated processes).
-            \item \textit{(User authentication is handled through integrated Supabase Auth.)}
+            \item \textit{(User authentication is handled through integrated Supabase \cite{supabase} Auth.)}
         \end{itemize}
-    \end{itemize}
 \end{itemize}
 
 \subsection{Database}
 
 The database stores all important information for the system.
 \begin{itemize}
-    \item \textbf{Database Management System:} PostgreSQL was chosen as the main relational database. PostgreSQL is known for its reliability, rich features, and scalability, making it suitable for storing structured data such as patient records, symptom logs, and monitoring events.
-    \item \textbf{Real-time Updates:} Leveraging Supabase's real-time subscriptions feature (or a similar PostgreSQL-based solution) to push data updates (e.g., new prediction results, changed patient information) from backend to client automatically, ensuring the user interface always displays the latest information without manual refreshing.
+    \item \textbf{Database Management System:} PostgreSQL \cite{postgresql} was chosen as the main relational database. PostgreSQL is known for its reliability, rich features, and scalability, making it suitable for storing structured data such as patient records, symptom logs, and monitoring events.
+    \item \textbf{Real-time Updates:} Leveraging Supabase's \cite{supabase} real-time subscriptions feature (or a similar PostgreSQL-based solution) to push data updates (e.g., new prediction results, changed patient information) from backend to client automatically, ensuring the user interface always displays the latest information without manual refreshing.
 \end{itemize}
 
 \subsection{System Architecture Diagram}
@@ -145,11 +144,11 @@ Figure \ref{fig:system_architecture} illustrates the overall architecture and in
 As shown in the diagram, the LungWise system follows a modern three-tier architecture with clear separation of concerns:
 
 \begin{itemize}
-    \item The \textbf{Client Tier} consists of the React/TypeScript frontend that doctors interact with. It communicates with the backend via HTTP/REST calls and receives real-time updates through a subscription mechanism.
+    \item The \textbf{Client Tier} consists of the React \cite{react}/TypeScript \cite{typescript} frontend that doctors interact with. It communicates with the backend via HTTP/REST calls and receives real-time updates through a subscription mechanism.
     
-    \item The \textbf{Server Tier} contains the FastAPI backend that processes requests, enforces business logic, and orchestrates data flow between the client, database, and ML model.
+    \item The \textbf{Server Tier} contains the FastAPI \cite{fastapi} backend that processes requests, enforces business logic, and orchestrates data flow between the client, database, and ML model.
     
-    \item The \textbf{Data Tier} includes both the PostgreSQL database for persistent storage and the XGBoost model for risk predictions.
+    \item The \textbf{Data Tier} includes both the PostgreSQL \cite{postgresql} database for persistent storage and the XGBoost \cite{chen2016xgboost} model for risk predictions. The model leverages scikit-learn \cite{pedregosa2011scikit} for preprocessing and evaluation pipelines.
 \end{itemize}
 
 This architecture provides several advantages:

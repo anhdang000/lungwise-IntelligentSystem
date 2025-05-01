@@ -5,12 +5,12 @@ In machine learning, classification is a common task that aims to assign a categ
 \subsection{Common Classification Algorithms}
 Some commonly used classification algorithms include:
 \begin{itemize}
-    \item \textbf{Logistic Regression:} A simple but effective linear model, often used as a baseline. It models the probability of a binary class using the sigmoid function.
-    \item \textbf{Support Vector Machine (SVM):} Searches for an optimal hyperplane to separate data classes in feature space. SVM is effective in high-dimensional spaces and when the number of dimensions is greater than the number of samples.
-    \item \textbf{Decision Tree:} Builds a tree-like model where each internal node represents a test on a feature, each branch represents the outcome of the test, and each leaf node represents a class label. Decision trees are easy to interpret but prone to overfitting.
-    \item \textbf{Random Forest:} An ensemble learning algorithm that builds multiple decision trees during training and outputs the mode of the classes (for classification) or mean prediction (for regression) of the individual trees. It reduces the overfitting problem of single decision trees.
-    \item \textbf{Naïve Bayes:} Based on Bayes' theorem with a "naïve" assumption of conditional independence between features. It is simple, fast, and works well on large datasets.
-    \item \textbf{Gradient Boosting Machines (GBM):} Another ensemble learning technique that builds models (usually decision trees) sequentially, with each new model trying to correct the errors of previous models. Popular variations include AdaBoost, Gradient Boosting, and XGBoost.
+    \item \textbf{Logistic Regression \cite{cortes1995support}:} A simple but effective linear model, often used as a baseline. It models the probability of a binary class using the sigmoid function \cite{cox1958regression}.
+    \item \textbf{Support Vector Machine (SVM) \cite{cortes1995support}:} Searches for an optimal hyperplane to separate data classes in feature space. SVM is effective in high-dimensional spaces and when the number of dimensions is greater than the number of samples .
+    \item \textbf{Decision Tree \cite{Patel_2018}:} Builds a tree-like model where each internal node represents a test on a feature, each branch represents the outcome of the test, and each leaf node represents a class label. Decision trees are easy to interpret but prone to overfitting.
+    \item \textbf{Random Forest \cite{breiman2001random}:} An ensemble learning algorithm that builds multiple decision trees during training and outputs the mode of the classes (for classification) or mean prediction (for regression) of the individual trees. It reduces the overfitting problem of single decision trees \cite{breiman2001random}.
+    \item \textbf{Naïve Bayes \cite{2000_Frank}:} Based on Bayes' theorem with a "naïve" assumption of conditional independence between features. It is simple, fast, and works well on large datasets.
+    \item \textbf{Gradient Boosting Machines (GBM) \cite{friedman2001greedy}:} Another ensemble learning technique that builds models (usually decision trees) sequentially, with each new model trying to correct the errors of previous models. Popular variations include AdaBoost, Gradient Boosting, and XGBoost.
 \end{itemize}
 
 \subsection{Choosing XGBoost}
