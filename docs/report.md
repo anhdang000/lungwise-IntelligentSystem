@@ -1,15 +1,13 @@
 # Lung Cancer Early Diagnosis and Monitoring System
 
-**Final Assignment Report**  
+**Final Assignment Report**
 *Intelligent Systems Course*
 
-**Author:** Dang Linh Anh (2370113)  
-**Supervisor:** Dr. Tran Tuan Anh  
-**Date:** April 28, 2025  
+**Author:** Dang Linh Anh (2370113)
+**Supervisor:** Dr. Tran Tuan Anh
+**Date:** April 28, 2025
 
-![University Logo](../report/Images/Logo%20BK.png)
-
-*Faculty of Computer Science & Engineering*  
+*Faculty of Computer Science & Engineering*
 *Vietnam National University - Ho Chi Minh City University of Technology*
 
 ---
